@@ -1,11 +1,9 @@
-import { Router } from 'express';
-import { body, param} from 'express-validator';
-import { ProjectController } from '../controllers/projectController';
+import { Router } from 'express'
+import { body, param } from 'express-validator'
+import { ProjectController } from '../controllers/ProjectController'
 
-const router = Router();
+const router = Router()
 
-router.get("/", 
-    ProjectController.test
-);
+router.get('/', ProjectController.test)
 
-export default router;
+export default router
