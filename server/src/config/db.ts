@@ -3,6 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import dotenv from 'dotenv'
 import colors from 'colors'
+import { initModels } from '../models/init-models'
 
 dotenv.config()
 
@@ -59,7 +60,9 @@ export const db = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
 export const connectDB = async () => {
   try {
     await db.authenticate()
+    initModels(db)
     console.log(colors.cyan.bold(`MariaDB conectado en ${DB_HOST}:${DB_PORT}`))
+    console.log(colors.cyan.bold('Modelos inicializados correctamente'))
   } catch (error: any) {
     console.log(colors.red.bold(error.message))
     process.exit(1)
