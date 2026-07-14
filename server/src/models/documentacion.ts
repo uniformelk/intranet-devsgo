@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { Cliente, ClienteId } from './cliente';
+import type { Cliente, ClienteId } from './client';
 import type { Proyecto, ProyectoId } from './proyecto';
 
 export interface DocumentacionAttributes {
@@ -48,90 +48,90 @@ export class Documentacion extends Model<DocumentacionAttributes, DocumentacionC
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Documentacion {
     return Documentacion.init({
-    id_documento: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
-    descripcion: {
-      type: DataTypes.STRING(250),
-      allowNull: false
-    },
-    tipo: {
-      type: DataTypes.STRING(250),
-      allowNull: false
-    },
-    url: {
-      type: DataTypes.STRING(250),
-      allowNull: false
-    },
-    id_cliente: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'clientes',
-        key: 'id_cliente'
+      id_documento: {
+        autoIncrement: true,
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true
+      },
+      descripcion: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+      },
+      tipo: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+      },
+      url: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+      },
+      id_cliente: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'clientes',
+          key: 'id_cliente'
+        }
+      },
+      id_proyecto: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'proyectos',
+          key: 'id_proyecto'
+        }
+      },
+      usuario_creacion: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+      },
+      fecha_creacion: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.Sequelize.fn('current_timestamp')
+      },
+      usuario_modificacion: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+      },
+      fecha_modificacion: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: "0000-00-00 00:00:00"
+      },
+      version: {
+        type: DataTypes.DOUBLE(2, 1),
+        allowNull: false
       }
-    },
-    id_proyecto: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'proyectos',
-        key: 'id_proyecto'
-      }
-    },
-    usuario_creacion: {
-      type: DataTypes.STRING(250),
-      allowNull: false
-    },
-    fecha_creacion: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: Sequelize.Sequelize.fn('current_timestamp')
-    },
-    usuario_modificacion: {
-      type: DataTypes.STRING(250),
-      allowNull: false
-    },
-    fecha_modificacion: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: "0000-00-00 00:00:00"
-    },
-    version: {
-      type: DataTypes.DOUBLE(2,1),
-      allowNull: false
-    }
-  }, {
-    sequelize,
-    tableName: 'documentacion',
-    timestamps: false,
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "id_documento" },
-        ]
-      },
-      {
-        name: "cliente_documento",
-        using: "BTREE",
-        fields: [
-          { name: "id_cliente" },
-        ]
-      },
-      {
-        name: "proyecto_documento",
-        using: "BTREE",
-        fields: [
-          { name: "id_proyecto" },
-        ]
-      },
-    ]
-  });
+    }, {
+      sequelize,
+      tableName: 'documentacion',
+      timestamps: false,
+      indexes: [
+        {
+          name: "PRIMARY",
+          unique: true,
+          using: "BTREE",
+          fields: [
+            { name: "id_documento" },
+          ]
+        },
+        {
+          name: "cliente_documento",
+          using: "BTREE",
+          fields: [
+            { name: "id_cliente" },
+          ]
+        },
+        {
+          name: "proyecto_documento",
+          using: "BTREE",
+          fields: [
+            { name: "id_proyecto" },
+          ]
+        },
+      ]
+    });
   }
 }

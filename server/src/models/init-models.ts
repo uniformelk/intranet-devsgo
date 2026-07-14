@@ -15,8 +15,10 @@ import { Sede as _Sede } from "./sede";
 import type { SedeAttributes, SedeCreationAttributes } from "./sede";
 import { Tarea as _Tarea } from "./tarea";
 import type { TareaAttributes, TareaCreationAttributes } from "./tarea";
-import { Usuario as _Usuario } from "./usuario";
-import type { UsuarioAttributes, UsuarioCreationAttributes } from "./usuario";
+import { Cliente as _Cliente } from "./client";
+import type { ClienteAttributes, ClienteCreationAttributes } from "./client";
+import { Usuario as _Usuario } from "./users";
+import type { UsuarioAttributes, UsuarioCreationAttributes } from "./users";
 
 export {
   _DetallePrograma as DetallePrograma,
@@ -28,6 +30,7 @@ export {
   _Sede as Sede,
   _Tarea as Tarea,
   _Usuario as Usuario,
+  _Cliente as Cliente,
 };
 
 export type {
@@ -49,6 +52,8 @@ export type {
   TareaCreationAttributes,
   UsuarioAttributes,
   UsuarioCreationAttributes,
+  ClienteAttributes,
+  ClienteCreationAttributes,
 };
 
 export function initModels(sequelize: Sequelize) {
@@ -61,17 +66,24 @@ export function initModels(sequelize: Sequelize) {
   const Sede = _Sede.initModel(sequelize);
   const Tarea = _Tarea.initModel(sequelize);
   const Usuario = _Usuario.initModel(sequelize);
+  const Cliente = _Cliente.initModel(sequelize);
 
-  DetallePrograma.belongsTo(Programa, { as: "id_programa_programa", foreignKey: "id_programa"});
-  Programa.hasMany(DetallePrograma, { as: "detalle_programas", foreignKey: "id_programa"});
-  Documentacion.belongsTo(Proyecto, { as: "id_proyecto_proyecto", foreignKey: "id_proyecto"});
-  Proyecto.hasMany(Documentacion, { as: "documentacions", foreignKey: "id_proyecto"});
-  Estadistica.belongsTo(Proyecto, { as: "id_proyecto_proyecto", foreignKey: "id_proyecto"});
-  Proyecto.hasMany(Estadistica, { as: "estadisticas", foreignKey: "id_proyecto"});
-  Tarea.belongsTo(Proyecto, { as: "id_proyecto_proyecto", foreignKey: "id_proyecto"});
-  Proyecto.hasMany(Tarea, { as: "tareas", foreignKey: "id_proyecto"});
-  Programa.belongsTo(Sede, { as: "id_sede_sede", foreignKey: "id_sede"});
-  Sede.hasMany(Programa, { as: "programas", foreignKey: "id_sede"});
+  DetallePrograma.belongsTo(Programa, { as: "id_programa_programa", foreignKey: "id_programa" });
+  Programa.hasMany(DetallePrograma, { as: "detalle_programas", foreignKey: "id_programa" });
+  Documentacion.belongsTo(Proyecto, { as: "id_proyecto_proyecto", foreignKey: "id_proyecto" });
+  Proyecto.hasMany(Documentacion, { as: "documentacions", foreignKey: "id_proyecto" });
+  Estadistica.belongsTo(Proyecto, { as: "id_proyecto_proyecto", foreignKey: "id_proyecto" });
+  Proyecto.hasMany(Estadistica, { as: "estadisticas_rel", foreignKey: "id_proyecto" });
+  Tarea.belongsTo(Proyecto, { as: "id_proyecto_proyecto", foreignKey: "id_proyecto" });
+  Proyecto.hasMany(Tarea, { as: "tareas", foreignKey: "id_proyecto" });
+  Programa.belongsTo(Sede, { as: "id_sede_sede", foreignKey: "id_sede" });
+  Sede.hasMany(Programa, { as: "programas", foreignKey: "id_sede" });
+  Proyecto.belongsTo(Cliente, { as: "id_cliente_cliente", foreignKey: "id_cliente" });
+  Cliente.hasMany(Proyecto, { as: "proyectos", foreignKey: "id_cliente" });
+  Documentacion.belongsTo(Cliente, { as: "id_cliente_cliente", foreignKey: "id_cliente" });
+  Cliente.hasMany(Documentacion, { as: "documentacions", foreignKey: "id_cliente" });
+  Estadistica.belongsTo(Cliente, { as: "id_cliente_cliente", foreignKey: "id_cliente" });
+  Cliente.hasMany(Estadistica, { as: "estadisticas", foreignKey: "id_cliente" });
 
   return {
     DetallePrograma: DetallePrograma,
@@ -83,5 +95,6 @@ export function initModels(sequelize: Sequelize) {
     Sede: Sede,
     Tarea: Tarea,
     Usuario: Usuario,
+    Cliente: Cliente,
   };
 }

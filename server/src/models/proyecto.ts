@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { Cliente, ClienteId } from './cliente';
+import type { Cliente, ClienteId } from './client';
 import type { Documentacion, DocumentacionId } from './documentacion';
 import type { Estadistica, EstadisticaId } from './estadistica';
 import type { Tarea } from './tarea';
@@ -43,7 +43,7 @@ export class Proyecto extends Model<ProyectoAttributes, ProyectoCreationAttribut
   alcance!: string;
   descripcion_servicios!: string;
   valor_servicios!: string;
-  
+
 
   // Proyecto belongsTo Cliente via id_cliente
   id_cliente_cliente!: Cliente;
@@ -63,7 +63,7 @@ export class Proyecto extends Model<ProyectoAttributes, ProyectoCreationAttribut
   hasDocumentacions!: Sequelize.HasManyHasAssociationsMixin<Documentacion, DocumentacionId>;
   countDocumentacions!: Sequelize.HasManyCountAssociationsMixin;
   // Proyecto hasMany Estadistica via id_proyecto
-  
+
   getEstadisticas!: Sequelize.HasManyGetAssociationsMixin<Estadistica>;
   setEstadisticas!: Sequelize.HasManySetAssociationsMixin<Estadistica, EstadisticaId>;
   addEstadistica!: Sequelize.HasManyAddAssociationMixin<Estadistica, EstadisticaId>;
@@ -89,94 +89,94 @@ export class Proyecto extends Model<ProyectoAttributes, ProyectoCreationAttribut
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Proyecto {
     return Proyecto.init({
-    id_proyecto: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
-    nombre_proyecto: {
-      type: DataTypes.STRING(250),
-      allowNull: false
-    },
-    id_cliente: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'clientes',
-        key: 'id_cliente'
+      id_proyecto: {
+        autoIncrement: true,
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true
+      },
+      nombre_proyecto: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+      },
+      id_cliente: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'clientes',
+          key: 'id_cliente'
+        }
+      },
+      descripcion: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+      },
+      usuario_creacion: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+      },
+      fecha_creacion: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.Sequelize.fn('current_timestamp')
+      },
+      usuario_actualizacion: {
+        type: DataTypes.STRING(250),
+        allowNull: true
+      },
+      fecha_actualizacion: {
+        type: DataTypes.DATE,
+        allowNull: true
+      },
+      valor_contrato: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      progreso: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      estado: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      alcance: {
+        type: DataTypes.TEXT,
+        allowNull: false
+      },
+      descripcion_servicios: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+      },
+      valor_servicios: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+      },
+      estadisticas: {
+        type: DataTypes.INTEGER,
+        allowNull: true
       }
-    },
-    descripcion: {
-      type: DataTypes.STRING(250),
-      allowNull: false
-    },
-    usuario_creacion: {
-      type: DataTypes.STRING(250),
-      allowNull: false
-    },
-    fecha_creacion: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: Sequelize.Sequelize.fn('current_timestamp')
-    },
-    usuario_actualizacion: {
-      type: DataTypes.STRING(250),
-      allowNull: true
-    },
-    fecha_actualizacion: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    valor_contrato: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    progreso: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    estado: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    alcance: {
-      type: DataTypes.TEXT,
-      allowNull: false
-    },
-    descripcion_servicios: {
-      type: DataTypes.STRING(250),
-      allowNull: false
-    },
-    valor_servicios: {
-      type: DataTypes.STRING(250),
-      allowNull: false
-    },
-    estadisticas: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    }
-  }, {
-    sequelize,
-    tableName: 'proyectos',
-    timestamps: false,
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "id_proyecto" },
-        ]
-      },
-      {
-        name: "cliente_proyecto",
-        using: "BTREE",
-        fields: [
-          { name: "id_cliente" },
-        ]
-      },
-    ]
-  });
+    }, {
+      sequelize,
+      tableName: 'proyectos',
+      timestamps: false,
+      indexes: [
+        {
+          name: "PRIMARY",
+          unique: true,
+          using: "BTREE",
+          fields: [
+            { name: "id_proyecto" },
+          ]
+        },
+        {
+          name: "cliente_proyecto",
+          using: "BTREE",
+          fields: [
+            { name: "id_cliente" },
+          ]
+        },
+      ]
+    });
   }
 }

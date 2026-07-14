@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { Cliente, ClienteId } from './cliente';
+import type { Cliente, ClienteId } from './client';
 import type { Proyecto, ProyectoId } from './proyecto';
 
 export interface EstadisticaAttributes {
@@ -42,76 +42,76 @@ export class Estadistica extends Model<EstadisticaAttributes, EstadisticaCreatio
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Estadistica {
     return Estadistica.init({
-    id_registro: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
-    id_proyecto: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'proyectos',
-        key: 'id_proyecto'
+      id_registro: {
+        autoIncrement: true,
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true
+      },
+      id_proyecto: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'proyectos',
+          key: 'id_proyecto'
+        }
+      },
+      id_cliente: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'clientes',
+          key: 'id_cliente'
+        }
+      },
+      base_datos: {
+        type: DataTypes.STRING(50),
+        allowNull: false
+      },
+      tabla: {
+        type: DataTypes.STRING(50),
+        allowNull: false
+      },
+      usuario: {
+        type: DataTypes.STRING(50),
+        allowNull: false
+      },
+      password: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+      },
+      servidor: {
+        type: DataTypes.STRING(50),
+        allowNull: false
       }
-    },
-    id_cliente: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'clientes',
-        key: 'id_cliente'
-      }
-    },
-    base_datos: {
-      type: DataTypes.STRING(50),
-      allowNull: false
-    },
-    tabla: {
-      type: DataTypes.STRING(50),
-      allowNull: false
-    },
-    usuario: {
-      type: DataTypes.STRING(50),
-      allowNull: false
-    },
-    password: {
-      type: DataTypes.STRING(250),
-      allowNull: false
-    },
-    servidor: {
-      type: DataTypes.STRING(50),
-      allowNull: false
-    }
-  }, {
-    sequelize,
-    tableName: 'estadisticas',
-    timestamps: false,
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "id_registro" },
-        ]
-      },
-      {
-        name: "cliente",
-        using: "BTREE",
-        fields: [
-          { name: "id_cliente" },
-        ]
-      },
-      {
-        name: "proyec",
-        using: "BTREE",
-        fields: [
-          { name: "id_proyecto" },
-        ]
-      },
-    ]
-  });
+    }, {
+      sequelize,
+      tableName: 'estadisticas',
+      timestamps: false,
+      indexes: [
+        {
+          name: "PRIMARY",
+          unique: true,
+          using: "BTREE",
+          fields: [
+            { name: "id_registro" },
+          ]
+        },
+        {
+          name: "cliente",
+          using: "BTREE",
+          fields: [
+            { name: "id_cliente" },
+          ]
+        },
+        {
+          name: "proyec",
+          using: "BTREE",
+          fields: [
+            { name: "id_proyecto" },
+          ]
+        },
+      ]
+    });
   }
 }
